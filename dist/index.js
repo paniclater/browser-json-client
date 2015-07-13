@@ -26,7 +26,7 @@ module.exports = {
 
         success(response);
       } else {
-        error(JSON.parse(request.response));
+        error(request);
       }
     }
   },
@@ -36,7 +36,7 @@ module.exports = {
   },
 
   _setHeaders: function _setHeaders(request, headers) {
-    headers.every(function (header) {
+    headers.forEach(function (header) {
       request.setRequestHeader(header.name, header.value);
     });
 
