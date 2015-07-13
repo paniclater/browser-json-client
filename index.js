@@ -64,9 +64,10 @@ module.exports = {
     request.onreadystatechange = this._handleResponse.bind(this, request, options.success, options.error);
     request.ontimeout = this._handleTimeout.bind(this, request, url);
 
-    request.open(type, url, options.async);
-
+    request.setRequestHeader('Content-Type', 'application/json');
     request = this._setHeaders(request, options.headers);
+
+    request.open(type, url, options.async);
 
     request.send(JSON.stringify(options.data));
   },
