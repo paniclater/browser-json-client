@@ -2,12 +2,12 @@ module.exports = {
   defaults: {
     async: true,
     data: {},
-    error () {},
+    error: function () {},
     headers: [],
-    success () {}
+    success: function () {}
   },
 
-  _handleResponse (request, success, error) {
+  _handleResponse: function (request, success, error) {
     if (request.readyState === 4) {
       this.end(request);
 
@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  _handleTimeout (request, url) {
+  _handleTimeout: function (request, url) {
     console.warn('The request for ' + url + ' timed out at ' + request.timeout + ' seconds.');
   },
 
@@ -40,7 +40,7 @@ module.exports = {
     return request;
   },
 
-  _getOptions (requestOptions) {
+  _getOptions: function (requestOptions) {
     const options = this.defaults;
 
     for (const key in requestOptions) {
@@ -56,7 +56,7 @@ module.exports = {
     return options;
   },
 
-  _makeRequest (url, requestOptions, type) {
+  _makeRequest: function (url, requestOptions, type) {
     const options = this._getOptions(requestOptions);
 
     let request = new XMLHttpRequest();
@@ -72,23 +72,23 @@ module.exports = {
     request.send(JSON.stringify(options.data));
   },
 
-  end () {
+  end: function () {
     //intended to be set by the user
   },
 
-  get (url, requestOptions) {
+  get: function (url, requestOptions) {
     this._makeRequest(url, requestOptions, 'GET');
   },
 
-  post (url, requestOptions) {
+  post: function (url, requestOptions) {
     this._makeRequest(url, requestOptions, 'POST');
   },
 
-  put (url, requestOptions) {
+  put: function (url, requestOptions) {
     this._makeRequest(url, requestOptions, 'PUT');
   },
 
-  del (url, requestOptions) {
+  del: function (url, requestOptions) {
     this._makeRequest(url, requestOptions, 'DELETE');
   }
 };
