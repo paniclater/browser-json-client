@@ -3,7 +3,7 @@ A simple http client for interacting with JSON APIs in the browser
 
 ## Installation
 ```
-npm install react-component-icon
+npm install browser-json-client
 ```
 
 ## Usage
