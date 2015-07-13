@@ -19,21 +19,142 @@
     </section>
 
     <section class="main-content">
-      <h1>
-<a id="browser-json-client" class="anchor" href="#browser-json-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>browser-json-client</h1>
-
-<p>A simple http client for interacting with JSON APIs in the browser</p>
-
-<h2>
+      <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<pre><code>npm install react-component-icon
+<pre><code>npm install browser-json-client
 </code></pre>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p><a href="http://bsbeeks.github.io/browser-json-client/">See Documentation</a></p>
+<p>This module is built to work specically with JSON APIs. Because of this, the <code>Content-Type</code> header is set to <code>application/json</code> by default. It also assumes that the api responses are JSON objects.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>browser-json-client<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// default options</span>
+<span class="pl-k">var</span> options <span class="pl-k">=</span> {
+  async<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+  data<span class="pl-k">:</span> {},
+  <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span> () {},
+  headers<span class="pl-k">:</span> [],
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> () {}
+};
+
+client.get(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint.com/whatever<span class="pl-pds">'</span></span>, options);</pre></div>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<p>Each request takes an options object. The available options are:</p>
+
+<h4>
+<a id="async-boolean" class="anchor" href="#async-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>async</code> (boolean)</h4>
+
+<p>Determines if the request should be made asynchronously</p>
+
+<h4>
+<a id="data-object" class="anchor" href="#data-object" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>data</code> (object)</h4>
+
+<p>A JSON object that will be sent with the http request</p>
+
+<h4>
+<a id="error-function" class="anchor" href="#error-function" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>error</code> (function)</h4>
+
+<p>A function that will be called if the request responds with an error</p>
+
+<h4>
+<a id="headers-array" class="anchor" href="#headers-array" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>headers</code> (array)</h4>
+
+<p>An array of objects that will be set as headers on the request. Each object should contain a <code>name</code> and <code>value</code> property.</p>
+
+<div class="highlight highlight-javascript"><pre>{
+  headers<span class="pl-k">:</span> [
+    { name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Context-Type<span class="pl-pds">'</span></span>, value<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>application/json<span class="pl-pds">'</span></span> }
+  ]
+}</pre></div>
+
+<h4>
+<a id="success-function" class="anchor" href="#success-function" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>success</code> (function)</h4>
+
+<p>A function that will be called if the request is successful. It returns the response body as a JSON object.</p>
+
+<div class="highlight highlight-javascript"><pre>{
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(response.yourData);
+  }
+}</pre></div>
+
+<h2>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h2>
+
+<h4>
+<a id="geturl-options" class="anchor" href="#geturl-options" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>.get(url, options)</code>
+</h4>
+
+<p>This sends a GET request to the provided URL.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>browser-json-client<span class="pl-pds">'</span></span>);
+
+client.get(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint.com/whatever<span class="pl-pds">'</span></span>, {
+  <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  },
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  }
+});</pre></div>
+
+<h4>
+<a id="posturl-options" class="anchor" href="#posturl-options" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>.post(url, options)</code>
+</h4>
+
+<p>This sends a POST request to the provided URL.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>browser-json-client<span class="pl-pds">'</span></span>);
+
+client.post(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint.com/whatever<span class="pl-pds">'</span></span>, {
+  <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  },
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  }
+});</pre></div>
+
+<h4>
+<a id="puturl-options" class="anchor" href="#puturl-options" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>.put(url, options)</code>
+</h4>
+
+<p>This sends a PUT request to the provided URL.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>browser-json-client<span class="pl-pds">'</span></span>);
+
+client.put(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint.com/whatever<span class="pl-pds">'</span></span>, {
+  <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  },
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  }
+});</pre></div>
+
+<h4>
+<a id="delurl-options" class="anchor" href="#delurl-options" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>.del(url, options)</code>
+</h4>
+
+<p>This sends a DELETE request to the provided URL.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>browser-json-client<span class="pl-pds">'</span></span>);
+
+client.del(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint.com/whatever<span class="pl-pds">'</span></span>, {
+  <span class="pl-en">error</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  },
+  <span class="pl-en">success</span><span class="pl-k">:</span> <span class="pl-k">function</span> (<span class="pl-smi">response</span>) {
+    <span class="pl-c">// response is a JSON object</span>
+  }
+});</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/bsbeeks/browser-json-client">browser-json-client</a> is maintained by <a href="https://github.com/bsbeeks">bsbeeks</a>.</span>
