@@ -1,6 +1,6 @@
 {
   "name": "browser-json-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple http client for interacting with JSON APIs in the browser",
   "main": "index.js",
   "scripts": {
