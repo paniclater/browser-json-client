@@ -32,7 +32,7 @@ module.exports = {
     console.warn('The request for ' + url + ' timed out at ' + request.timeout + ' seconds.');
   },
 
-  _setHeaders (request, headers) {
+  _setHeaders: function (request, headers) {
     headers.every(header => {
       request.setRequestHeader(header.name, header.value);
     });
