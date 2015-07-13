@@ -1,18 +1,20 @@
+'use strict';
+
 module.exports = {
   defaults: {
     async: true,
     data: {},
-    error () {},
+    error: function error() {},
     headers: [],
-    success () {}
+    success: function success() {}
   },
 
-  _handleResponse (request, success, error) {
+  _handleResponse: function _handleResponse(request, success, error) {
     if (request.readyState === 4) {
       this.end(request);
 
       if (request.status === 200) {
-        let response = request.response;
+        var response = request.response;
 
         try {
           response = JSON.parse(response);
@@ -28,22 +30,22 @@ module.exports = {
     }
   },
 
-  _handleTimeout (request, url) {
+  _handleTimeout: function _handleTimeout(request, url) {
     console.warn('The request for ' + url + ' timed out at ' + request.timeout + ' seconds.');
   },
 
-  _setHeaders (request, headers) {
-    headers.every(header => {
+  _setHeaders: function _setHeaders(request, headers) {
+    headers.every(function (header) {
       request.setRequestHeader(header.name, header.value);
     });
 
     return request;
   },
 
-  _getOptions (requestOptions) {
-    const options = this.defaults;
+  _getOptions: function _getOptions(requestOptions) {
+    var options = this.defaults;
 
-    for (const key in requestOptions) {
+    for (var key in requestOptions) {
       if (requestOptions.hasOwnProperty(key)) {
         if (key === 'headers') {
           options[key] = options[key].concat(requestOptions[key]);
@@ -56,10 +58,10 @@ module.exports = {
     return options;
   },
 
-  _makeRequest (url, requestOptions, type) {
-    const options = this._getOptions(requestOptions);
+  _makeRequest: function _makeRequest(url, requestOptions, type) {
+    var options = this._getOptions(requestOptions);
 
-    let request = new XMLHttpRequest();
+    var request = new XMLHttpRequest();
 
     request.onreadystatechange = this._handleResponse.bind(this, request, options.success, options.error);
     request.ontimeout = this._handleTimeout.bind(this, request, url);
@@ -72,23 +74,23 @@ module.exports = {
     request.send(JSON.stringify(options.data));
   },
 
-  end () {
-    //intended to be set by the user
-  },
+  end: function end() {},
 
-  get (url, requestOptions) {
+  get: function get(url, requestOptions) {
     this._makeRequest(url, requestOptions, 'GET');
   },
 
-  post (url, requestOptions) {
+  post: function post(url, requestOptions) {
     this._makeRequest(url, requestOptions, 'POST');
   },
 
-  put (url, requestOptions) {
+  put: function put(url, requestOptions) {
     this._makeRequest(url, requestOptions, 'PUT');
   },
 
-  del (url, requestOptions) {
+  del: function del(url, requestOptions) {
     this._makeRequest(url, requestOptions, 'DELETE');
   }
 };
+
+//intended to be set by the user
