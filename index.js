@@ -2,6 +2,7 @@ module.exports = {
   defaults: {
     async: true,
     data: {},
+    end () {},
     error () {},
     headers: [],
     success () {}
@@ -9,7 +10,7 @@ module.exports = {
 
   _handleResponse (request, success, error) {
     if (request.readyState === 4) {
-      this.end(request);
+      this.defaults.end(request);
 
       if (request.status === 200) {
         let response = request.response;
@@ -70,10 +71,6 @@ module.exports = {
     request = this._setHeaders(request, options.headers);
 
     request.send(JSON.stringify(options.data));
-  },
-
-  end () {
-    //intended to be set by the user
   },
 
   get (url, requestOptions) {

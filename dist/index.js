@@ -4,6 +4,7 @@ module.exports = {
   defaults: {
     async: true,
     data: {},
+    end: function end() {},
     error: function error() {},
     headers: [],
     success: function success() {}
@@ -11,7 +12,7 @@ module.exports = {
 
   _handleResponse: function _handleResponse(request, success, error) {
     if (request.readyState === 4) {
-      this.end(request);
+      this.defaults.end(request);
 
       if (request.status === 200) {
         var response = request.response;
@@ -74,8 +75,6 @@ module.exports = {
     request.send(JSON.stringify(options.data));
   },
 
-  end: function end() {},
-
   get: function get(url, requestOptions) {
     this._makeRequest(url, requestOptions, 'GET');
   },
@@ -92,5 +91,3 @@ module.exports = {
     this._makeRequest(url, requestOptions, 'DELETE');
   }
 };
-
-//intended to be set by the user
