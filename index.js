@@ -33,7 +33,7 @@ module.exports = {
   },
 
   _setHeaders: function (request, headers) {
-    headers.every(header => {
+    headers.every(function (header) {
       request.setRequestHeader(header.name, header.value);
     });
 
