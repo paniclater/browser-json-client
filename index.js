@@ -16,11 +16,13 @@ module.exports = {
         case 200:
           let response = request.response;
 
-          try {
-            response = JSON.parse(response);
-          } catch (e) {
-            console.error('Invalid JSON string in mxRequest response', e);
-            return false;
+          if (response !== null) {
+            try {
+              response = JSON.parse(response);
+            } catch (e) {
+              console.error('Invalid JSON string in mxRequest response', e);
+              return false;
+            }
           }
 
           success(response);
