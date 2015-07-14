@@ -12,19 +12,24 @@ module.exports = {
     if (request.readyState === 4) {
       this.defaults.end(request);
 
-      if (request.status === 200) {
-        let response = request.response;
+      switch (request.status) {
+        case 200:
+          let response = request.response;
 
-        try {
-          response = JSON.parse(response);
-        } catch (e) {
-          console.error('Invalid JSON string in mxRequest response', e);
-          return false;
-        }
+          try {
+            response = JSON.parse(response);
+          } catch (e) {
+            console.error('Invalid JSON string in mxRequest response', e);
+            return false;
+          }
 
-        success(response);
-      } else {
-        error(request);
+          success(response);
+          break;
+        case 204:
+          success({});
+          break;
+        default:
+          error(request);
       }
     }
   },
