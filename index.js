@@ -1,9 +1,10 @@
 module.exports = {
   defaults: {
     async: true,
-    data: {},
+    data: false,
     end () {},
     error () {},
+    formData: false,
     headers: [],
     success () {}
   },
@@ -67,6 +68,7 @@ module.exports = {
   _makeRequest (url, requestOptions, type) {
     const options = this._getOptions(requestOptions);
 
+    let formattedData;
     let request = new XMLHttpRequest();
 
     request.onreadystatechange = this._handleResponse.bind(this, request, options.success, options.error);
@@ -74,7 +76,23 @@ module.exports = {
 
     request.open(type, url, options.async);
 
-    request.setRequestHeader('Content-Type', 'application/json');
+    if (options.formData) {
+      const urlEncodedDataPairs = [];
+
+      for (key in options.formData) {
+        urlEncodedDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.formData[key]));
+      }
+
+      formattedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.setRequestHeader('Content-Length', formattedData.length);
+    } else {
+      formattedData = JSON.stringify(options.data);
+
+      request.setRequestHeader('Content-Type', 'application/json');
+    }
+
     request = this._setHeaders(request, options.headers);
 
     request.send(JSON.stringify(options.data));
