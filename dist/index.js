@@ -3,9 +3,10 @@
 module.exports = {
   defaults: {
     async: true,
-    data: {},
+    data: false,
     end: function end() {},
     error: function error() {},
+    formData: false,
     headers: [],
     success: function success() {}
   },
@@ -53,12 +54,12 @@ module.exports = {
   _getOptions: function _getOptions(requestOptions) {
     var options = this.defaults;
 
-    for (var key in requestOptions) {
-      if (requestOptions.hasOwnProperty(key)) {
-        if (key === 'headers') {
-          options[key] = options[key].concat(requestOptions[key]);
+    for (var _key in requestOptions) {
+      if (requestOptions.hasOwnProperty(_key)) {
+        if (_key === 'headers') {
+          options[_key] = options[_key].concat(requestOptions[_key]);
         } else {
-          options[key] = requestOptions[key];
+          options[_key] = requestOptions[_key];
         }
       }
     }
@@ -69,6 +70,7 @@ module.exports = {
   _makeRequest: function _makeRequest(url, requestOptions, type) {
     var options = this._getOptions(requestOptions);
 
+    var formattedData = undefined;
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = this._handleResponse.bind(this, request, options.success, options.error);
@@ -76,7 +78,23 @@ module.exports = {
 
     request.open(type, url, options.async);
 
-    request.setRequestHeader('Content-Type', 'application/json');
+    if (options.formData) {
+      var urlEncodedDataPairs = [];
+
+      for (key in options.formData) {
+        urlEncodedDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.formData[key]));
+      }
+
+      formattedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      request.setRequestHeader('Content-Length', formattedData.length);
+    } else {
+      formattedData = JSON.stringify(options.data);
+
+      request.setRequestHeader('Content-Type', 'application/json');
+    }
+
     request = this._setHeaders(request, options.headers);
 
     request.send(JSON.stringify(options.data));
