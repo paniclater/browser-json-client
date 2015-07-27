@@ -70,6 +70,11 @@ client.get(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint
 }</pre></div>
 
 <h4>
+<a id="formData-object" class="anchor" href="#formData-object" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>formData</code> (object)</h4>
+
+<p>A JSON object that will be sent with the http request as form-urlencoded data. This option will override the `data` option and set the `Content-Type` header to 'application/x-www-form-urlencoded'.</p>
+
+<h4>
 <a id="headers-array" class="anchor" href="#headers-array" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>headers</code> (array)</h4>
 
 <p>An array of objects that will be set as headers on the request. Each object should contain a <code>name</code> and <code>value</code> property.</p>
@@ -170,7 +175,7 @@ client.del(<span class="pl-s"><span class="pl-pds">'</span>http://youapiendpoint
 
     </section>
 
-  
+
   </body>
 </html>
 
