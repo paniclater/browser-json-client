@@ -54,12 +54,12 @@ module.exports = {
   _getOptions: function _getOptions(requestOptions) {
     var options = this.defaults;
 
-    for (var _key in requestOptions) {
-      if (requestOptions.hasOwnProperty(_key)) {
-        if (_key === 'headers') {
-          options[_key] = options[_key].concat(requestOptions[_key]);
+    for (var key in requestOptions) {
+      if (requestOptions.hasOwnProperty(key)) {
+        if (key === 'headers') {
+          options[key] = options[key].concat(requestOptions[key]);
         } else {
-          options[_key] = requestOptions[_key];
+          options[key] = requestOptions[key];
         }
       }
     }
@@ -81,7 +81,7 @@ module.exports = {
     if (options.formData) {
       var urlEncodedDataPairs = [];
 
-      for (key in options.formData) {
+      for (var key in options.formData) {
         urlEncodedDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.formData[key]));
       }
 

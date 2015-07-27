@@ -79,7 +79,7 @@ module.exports = {
     if (options.formData) {
       const urlEncodedDataPairs = [];
 
-      for (key in options.formData) {
+      for (const key in options.formData) {
         urlEncodedDataPairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.formData[key]));
       }
 
