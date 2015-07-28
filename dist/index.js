@@ -88,7 +88,6 @@ module.exports = {
       formattedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
 
       request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      request.setRequestHeader('Content-Length', formattedData.length);
     } else {
       formattedData = JSON.stringify(options.data);
 
@@ -97,7 +96,7 @@ module.exports = {
 
     request = this._setHeaders(request, options.headers);
 
-    request.send(JSON.stringify(options.data));
+    request.send(formattedData);
   },
 
   get: function get(url, requestOptions) {
