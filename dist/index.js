@@ -27,8 +27,10 @@ module.exports = {
               return false;
             }
           }
-
           success(response);
+          break;
+        case 201:
+          success({});
           break;
         case 204:
           success({});
